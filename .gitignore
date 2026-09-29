@@ -1,0 +1,11 @@
+node_modules
+.npm-cache
+dist
+dist-ssr
+screenshots
+*.local
+.DS_Store
+.vite
+/source
+.npmrc
+README_full_ignored.md

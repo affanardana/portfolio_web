@@ -1,0 +1,270 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ tokens */
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #14131a;
+  --color-ink-soft: #4b4857;
+  --color-ink-muted: #7b788a;
+  --color-ink-faint: #a9a6b6;
+
+  --color-line: #e8e6ef;
+  --color-line-soft: #f1eff6;
+  --color-canvas: #fbfbfd;
+
+  --color-accent: #5b5bd6;
+  --color-accent-strong: #4a45c4;
+  --color-accent-tint: #eeeefc;
+
+  /* pastel blob palette */
+  --color-blob-iris: #c7d2fe;
+  --color-blob-sky: #bae6fd;
+  --color-blob-rose: #fbcfe8;
+  --color-blob-amber: #fde68a;
+  --color-blob-mint: #bbf7d0;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* -------------------------------------------------------------------- base */
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-accent) 20%, transparent);
+}
+
+/* Tailwind v4 preflight gives buttons `cursor: default`; restore the hand. */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']) {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------- liquid glass UI */
+
+/*
+ * iOS-style "liquid glass": a translucent frosted pane with a bright inner
+ * rim. The .glass-specular variant adds a highlight that tracks the pointer
+ * via --mx/--my so the pane reads as a physical, light-catching surface.
+ */
+.glass {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(
+    158deg,
+    rgb(255 255 255 / 0.82) 0%,
+    rgb(255 255 255 / 0.62) 48%,
+    rgb(255 255 255 / 0.72) 100%
+  );
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.9),
+    inset 0 -1px 0 0 rgb(255 255 255 / 0.35),
+    0 10px 34px -14px rgb(20 19 26 / 0.22),
+    0 2px 10px -5px rgb(20 19 26 / 0.1);
+}
+
+/* gradient hairline rim */
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.95),
+    rgb(255 255 255 / 0.2) 42%,
+    rgb(255 255 255 / 0.25) 62%,
+    rgb(255 255 255 / 0.7)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/*
+ * The highlight that follows the pointer.
+ *
+ * Stacking is explicit and must stay that way: highlight (0) < rim (1) <
+ * content (10). Two traps here, both hit already -
+ *   - at z-index >= 1 it painted over the bar's content and washed out
+ *     whatever the pointer was on (the language flags turned pink);
+ *   - at z-index < 0 it vanished entirely, because an element with
+ *     backdrop-filter does not paint negative-z children over its own
+ *     background. Hence 0 plus a raised content layer.
+ *
+ * It is tinted, not white: a white highlight is invisible on a white bar over
+ * a white page. The accent halo is what you actually see, with a white core
+ * inside it reading as the bright centre of a lens.
+ */
+.glass-specular::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-soft);
+  background:
+    radial-gradient(
+      170px circle at var(--mx, 50%) var(--my, 0%),
+      rgb(255 255 255 / 0.9),
+      transparent 66%
+    ),
+    radial-gradient(
+      330px circle at var(--mx, 50%) var(--my, 0%),
+      rgb(91 91 214 / 0.3),
+      rgb(91 91 214 / 0.12) 48%,
+      transparent 78%
+    );
+}
+
+.glass-specular:hover::before {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------ backgrounds */
+
+/* fine film grain so the white never reads as flat */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  will-change: transform;
+}
+
+.dot-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgb(20 19 26 / 0.07) 1px, transparent 0);
+  background-size: 30px 30px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 10%, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 10%, transparent 78%);
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(2.5%, -3.5%, 0) scale(1.07);
+  }
+  66% {
+    transform: translate3d(-2.5%, 2.5%, 0) scale(0.96);
+  }
+}
+
+/* Dissolves the bottom of the hero portrait so the crop reads as intentional. */
+.portrait-fade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 87%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 87%, transparent 100%);
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  will-change: transform;
+  animation: drift var(--drift-duration, 22s) var(--ease-soft) infinite;
+  animation-delay: var(--drift-delay, 0s);
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 34s linear infinite;
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float-soft {
+  animation: float-soft 6s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------- helpers */
+
+.text-gradient {
+  background: linear-gradient(120deg, var(--color-ink) 30%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .grain::after {
+    display: none;
+  }
+}
