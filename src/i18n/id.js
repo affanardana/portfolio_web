@@ -45,7 +45,7 @@ export default {
       { id: 'scikitlearn', name: 'scikit-learn', kind: 'Library' },
       { id: 'onnx', name: 'ONNX Runtime', kind: 'Runtime' },
       { id: 'tensorrt', name: 'TensorRT', kind: 'Runtime' },
-      { id: 'postgresql', name: 'PostgreSQL', kind: 'Basis Data' },
+      { id: 'postgresql', name: 'PostgreSQL', kind: 'Database' },
       { id: 'quantization', name: 'Kuantisasi', kind: 'INT8 · PTQ · QAT' },
       { id: 'data', name: 'Analisis dan Pengolahan Data', kind: 'Skill' },
       { id: 'model', name: 'Modifikasi Model Deep Learning', kind: 'Skill' },
