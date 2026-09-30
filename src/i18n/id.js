@@ -102,7 +102,7 @@ export default {
         note: {
           tone: 'warning',
           label: 'Perhatian',
-          text: 'Proyek ini melibatkan vibe coding dengan Specification-Driven Development.',
+          text: 'Proyek ini dibangun menggunakan vibe coding melalui Specification-Driven Development (SDD), namun hanya untuk aplikasi web-nya. Pekerjaan terkait AI dan pemodelan—meliputi pelatihan, evaluasi, dan pemrosesan data—ditulis secara langsung tanpa metode tersebut.',
         },
         stats: [
           { value: '1.358', label: 'item makanan di katalog' },
@@ -138,7 +138,7 @@ export default {
         note: {
           tone: 'warning',
           label: 'Perhatian',
-          text: 'Proyek ini melibatkan vibe coding dengan Specification-Driven Development.',
+          text: 'Proyek ini dibangun menggunakan vibe coding melalui Specification-Driven Development (SDD), namun hanya untuk aplikasi web-nya. Pekerjaan terkait AI dan pemodelan—meliputi pelatihan, evaluasi, dan pemrosesan data—ditulis secara langsung tanpa metode tersebut.',
         },
         stats: [
           { value: '60 menit', label: 'horizon kegagalan' },

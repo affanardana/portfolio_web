@@ -102,7 +102,7 @@ export default {
         note: {
           tone: 'warning',
           label: 'Warning',
-          text: 'This project involves vibe coding using Specification-Driven Development.',
+          text: 'This project was built using vibe coding via Specification-Driven Development (SDD), but only for the web application. The AI and modelling work — training, evaluation, and data processing — was written directly, without it.',
         },
         stats: [
           { value: '1,358', label: 'food items in catalogue' },
@@ -138,7 +138,7 @@ export default {
         note: {
           tone: 'warning',
           label: 'Warning',
-          text: 'This project involves vibe coding using Specification-Driven Development.',
+          text: 'This project was built using vibe coding via Specification-Driven Development (SDD), but only for the web application. The AI and modelling work — training, evaluation, and data processing — was written directly, without it.',
         },
         stats: [
           { value: '60 min', label: 'failure horizon' },
